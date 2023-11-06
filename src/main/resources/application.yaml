@@ -1,0 +1,60 @@
+spring:
+  application:
+    name: test-circular-dependencies
+  cloud:
+    consul:
+      discovery:
+        ip-address: 127.0.0.1
+        query-passing: true
+        catalog-services-watch-delay: 15000
+        deregister: false
+        fail-fast: false
+        prefer-ip-address: true
+        heartbeat:
+          enabled: true
+          reregister-service-on-failure: true
+          ttl: 60
+        enable-tag-override: true
+        scheme: https
+        metadata:
+          "[additional-info]": ""
+        tags:
+        - "test=true"
+
+  data:
+    mongodb:
+      authentication-database: admin
+      database: admin
+      password: admin
+      uri: mongodb://admin:${spring.data.mongodb.password}@127.0.0.1:27017/admin
+      repositories:
+        type: reactive
+server:
+  port: 8881
+  address: 127.0.0.1
+  compression:
+    enabled: true
+    mime-types:
+    - application/json
+
+management:
+  endpoint:
+    health:
+      show-details: always
+  info:
+    env:
+      enabled: true
+    java:
+      enabled: true
+    os:
+      enabled: true
+    build:
+      enabled: true
+    git:
+      enabled: true
+      mode: full
+  endpoints:
+    web:
+      exposure:
+        include: "health,info"
+
